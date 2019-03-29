@@ -19,7 +19,7 @@ const getSegments = number => {
   const segmentSize = Math.ceil(numbers.length / userCPUCount);
 
   return _.chunk(numbers, segmentSize);
-}
+};
 
 const calculateFactorialWithWorker = number => {
   const segments = getSegments(number);
@@ -35,7 +35,7 @@ const calculateFactorialWithWorker = number => {
         if (code !== 0) reject(new Error(`Worker stopped with exit code ${code}`));
       });
     })
-  )
+  );
 
   return Promise.all(promises).then(results => {
     return results.reduce((acc, val) => acc * val, 1n);
@@ -54,9 +54,9 @@ const prepareWorkerPool = number => {
         if (code !== 0) reject(new Error(`Worker stopped with exit code ${code}`));
       });
     })
-  )
+  );
   return Promise.all(promises);
-}
+};
 
 const calculateFactorialWithWorkerPool = (number, workers) => {
   const segments = getSegments(number);
@@ -67,7 +67,7 @@ const calculateFactorialWithWorkerPool = (number, workers) => {
       worker.on("error", reject);
       worker.postMessage(segments[key])
     })
-  )
+  );
 
   return Promise.all(promises).then(results => {
     return results.reduce((acc, val) => acc * val, 1n);
@@ -80,7 +80,7 @@ const calculatFactorial = (number) => {
     numbers.push(i);
   }
   return numbers.reduce((acc, val) => acc * val, 1n);
-}
+};
 
 const benchmarkFactorial = async (inputNumber, factFun, label, pool) => {
   const spinner = ora(`Calculating with ${label}..`).start();
@@ -90,7 +90,7 @@ const benchmarkFactorial = async (inputNumber, factFun, label, pool) => {
   const time = diffTime[0] * NS_PER_SEC + diffTime[1];
   spinner.succeed(`${label} result done in: ${Math.floor(time / 1000000)}`);
   return time;
-}
+};
 
 const run = async () => {
   const {
